@@ -1,0 +1,36 @@
+/* public/styles/style.css */
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+.dog-logo img {
+    max-width: 300px;
+    height: auto;
+    margin-top: 40px;
+}
+
+h1 {
+    color: #272efc;
+    margin-top: 20px;
+}
+
+a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: white;
+    background-color: #ee9c89;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+a:hover {
+    background-color: #ee9c89;
+}
+
