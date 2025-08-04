@@ -1,0 +1,24 @@
+{
+	"name": "dog-adoption-platform-api",
+	"version": "1.0.0",
+	"description": "Dog Adoption Platform API",
+	"main": "app.js",
+	"scripts": {
+		"start": "node app.js",
+		"dev": "nodemon app.js"
+	},
+	"author": "KjaxCodes",
+	"license": "ISC",
+	"devDependencies": {
+		"nodemon": "^3.1.0"
+	},
+	"directories": {
+		"test": "tests"
+	},
+	"dependencies": {
+		"dotenv": "^17.2.1",
+		"ejs": "^3.1.10",
+		"express": "^5.1.0",
+		"mongodb": "^6.18.0"
+	}
+}
