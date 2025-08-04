@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors'); //TODO - use cors
 
 const PORT = 3001;
 
@@ -28,7 +29,9 @@ app.get('/', (req, res) => {
 app.get('/login', (req, res) => {
     res.render('login');
 });
+//TODO - create login in form, upon login, issue a token valid for 24 hours for subsequent authenticated requests.
 
 app.get('/register', (req, res) => {
     res.render('register');
 });
+//TODO - create registration form, Allow users to register with a username and password. Passwords should be hashed before storing in the database.
