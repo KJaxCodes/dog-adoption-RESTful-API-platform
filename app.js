@@ -31,8 +31,8 @@ app.get('/login', (req, res) => {
 });
 //TODO - create login in form, upon login, issue a token valid for 24 hours for subsequent authenticated requests.
 
-app.get('/register', (req, res) => {
-    res.render('register');
+app.get('/signup', (req, res) => {
+    res.render('signup');
 });
 //TODO - create registration form, Allow users to register with a username and password. Passwords should be hashed before storing in the database.
 
