@@ -35,3 +35,7 @@ app.get('/register', (req, res) => {
     res.render('register');
 });
 //TODO - create registration form, Allow users to register with a username and password. Passwords should be hashed before storing in the database.
+
+app.get('/dogs', (req, res) => {
+    res.render('dogs');
+});
