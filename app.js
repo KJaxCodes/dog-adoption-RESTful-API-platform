@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
+const authRoutes = require('./routes/authRoutes');
 const cors = require('cors'); //TODO - use cors
 
 const PORT = 3001;
@@ -45,3 +46,5 @@ app.get('/registerDog', (req, res) => {
     res.render('registerDog');
 });
 // TODO - connect to mongodb to add registered dogs to db, only accessible if logged in
+
+app.use(authRoutes);
