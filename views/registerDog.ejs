@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Register a Dog</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+    <a href="/">Home</a>
+    <form>
+        <h2>Register a Dog</h2>
+        <label for="name">Name</label>
+        <input type="text" name="name" required />
+        <div class="name error"></div>
+
+        <label for="age">Age</label>
+        <input type="number" name="age" min="0" required />
+        <div class="age error"></div>
+
+        <label for="description">Brief Information</label>
+        <textarea name="description" id="description" rows="2" required></textarea>
+        <div class="description error"></div>
+
+        <label for="size">Size</label>
+        <select name="size" id="size" required>
+            <option value="" disabled selected>Select size</option>
+            <option value="small">Small (Less than 20 lbs)</option>
+            <option value="medium">Medium (20-45 lbs)</option>
+            <option value="large">Large (Greater than 45 lbs)</option>
+        </select>
+        <div class="size error"></div>
+
+        <button>Register</button>
+    </form>
+
+    <script>
+        const form = document.querySelector('form');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // get form values
+            const name = form.name.value;
+            const age = form.age.value;
+            const description = form.description.value;
+            const size = form.size.value;
+
+            console.log(name, age, description, size);
+
+            // error validation
+
+            document.querySelectorAll('.error').forEach(div => div.textContent = '');
+
+            if (!name) {
+                document.querySelector('.name.error').textContent = 'Name is required';
+            }
+            if (!age) {
+                document.querySelector('.age.error').textContent = 'Age is required';
+            }
+            if (!description) {
+                document.querySelector('.description.error').textContent = 'Description is required';
+            }
+            if (!size) {
+                document.querySelector('.size.error').textContent = 'Please select a size';
+            }
+
+            // TODO Submit data to mongodb
+        });
+    </script>
+</body>
+
+</html>

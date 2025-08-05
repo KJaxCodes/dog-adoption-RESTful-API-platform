@@ -39,3 +39,9 @@ app.get('/signup', (req, res) => {
 app.get('/dogs', (req, res) => {
     res.render('dogs');
 });
+// TODO - connect mongobd to dynamically pull registered dog data, only accessible if logged in
+
+app.get('/registerDog', (req, res) => {
+    res.render('registerDog');
+});
+// TODO - connect to mongodb to add registered dogs to db, only accessible if logged in
