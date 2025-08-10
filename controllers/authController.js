@@ -15,9 +15,3 @@ module.exports.login_post = (req, res) => {
 module.exports.logout_get = (req, res) => {
     res.render('logout')
 };
-module.exports.registerDog_get = (req, res) => {
-    res.render('registerDog')
-};
-module.exports.registerDog_post = (req, res) => {
-    res.render('new registerDog')
-};
