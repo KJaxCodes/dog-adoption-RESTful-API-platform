@@ -46,9 +46,22 @@ module.exports.getDogById = (req, res) => {
     res.send(`Details of dog with ID: ${id}`);
 };
 
-module.exports.deleteDogById = (req, res) => {
+module.exports.deleteDogById = async (req, res) => {
     const { id } = req.params;
-    res.send(`Dog with ID ${id} deleted`);
+    try {
+        const dog = await Dog.findById(req.params.id);
+        if (!dog) {
+            return res.status(404).send('Dog not found');
+        }
+        if (dog.registeredBy.toString() !== req.user._id.toString()) {
+            return res.status(403).send('Unauthorized to delete this dog');
+        }
+        await Dog.findByIdAndDelete(req.params.id);
+        res.redirect('/dogs');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
 };
 
 module.exports.adoptDog_post = async (req, res) => {
