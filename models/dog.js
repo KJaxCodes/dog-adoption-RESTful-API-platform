@@ -21,11 +21,21 @@ const dogSchema = new mongoose.Schema({
         type: String,
         enum: ['small', 'medium', 'large'],
         required: [true, 'Current size required']
-    }
+    },
+    registeredBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    adoptedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        default: null
+    },
 }, { timestamps: true });
 
 const Dog = mongoose.model('dog', dogSchema);
-//the first argument MUST be the singular version of the database collection, which for this is called users
-//the second argument is the schema this model is based on, which we defined above and called userSchema
+//the first argument MUST be the singular version of the database collection, which for this is called dogs
+//the second argument is the schema this model is based on, which we defined above and called dogSchema
 
 module.exports = Dog;

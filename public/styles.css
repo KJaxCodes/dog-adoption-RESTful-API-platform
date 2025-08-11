@@ -89,6 +89,23 @@ button:hover {
     background-color: #e68a74;
 }
 
+.action-btn {
+    width: 120px;
+    /* lets the button shrink to fit content */
+    padding: 8px 20px;
+    /* adjust padding for a balanced size */
+    background-color: #6ab04c;
+    font-weight: 600;
+    font-size: 1em;
+    letter-spacing: 1.5px;
+    border-radius: 24px;
+    /* optional smaller radius */
+}
+
+.action-btn:hover {
+    background-color: #4a8c32;
+}
+
 .error {
     color: #ff0099;
     margin: 10px 2px;

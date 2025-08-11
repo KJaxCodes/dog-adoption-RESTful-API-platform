@@ -2,6 +2,7 @@
 const express = require('express');
 const { Router } = require('express');
 const dogController = require('../controllers/dogController');
+const { requireAuth } = require('../middlewares/authMiddleware');
 
 const router = Router();
 
@@ -13,8 +14,9 @@ const router = Router();
 // /dogs/:id DELETE - remove a dog from db, 
 
 router.get('/registerDog', dogController.registerDog_get);
-router.post('/registerDog', dogController.registerDog_post);
+router.post('/registerDog', requireAuth, dogController.registerDog_post);
 router.get('/dogs', dogController.dogs_get);
+router.post('/adopt/:id', requireAuth, dogController.adoptDog_post);
 router.get('/dogs/:id', dogController.getDogById);
 router.delete('/dogs/:id', dogController.deleteDogById);
 

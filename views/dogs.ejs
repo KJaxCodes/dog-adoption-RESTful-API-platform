@@ -16,6 +16,8 @@
     <% if (dogs.length> 0) { %>
         <ul class="dogs">
             <% dogs.forEach(dog=> { %>
+                <!-- <% console.log('Dog:', dog.name, 'registeredBy:' , dog.registeredBy.toString()); %>
+                    <% console.log('Logged-in userId:', userId); %> -->
                 <li class="dog">
                     <img src="/dog.png" alt="dog icon">
                     <h3>
@@ -25,9 +27,16 @@
                     </p>
                     <p>Age: <%= dog.age %>
                     </p>
-                    <p> Description:
-                        <%= dog.description %>
+                    <p>Description: <%= dog.description %>
                     </p>
+
+                    <% if (userId && !dog.adoptedBy && dog.registeredBy.toString() !==userId) { %>
+                        <form action="/adopt/<%= dog._id %>" method="POST">
+                            <button class="action-btn" type="submit">Adopt</button>
+                        </form>
+                        <% } else if (dog.adoptedBy) { %>
+                            <p><em>Already adopted</em></p>
+                            <% } %>
                 </li>
                 <% }) %>
         </ul>

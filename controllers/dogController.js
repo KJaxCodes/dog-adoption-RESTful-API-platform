@@ -24,7 +24,7 @@ module.exports.registerDog_post = async (req, res) => {
     const { name, age, description, size } = req.body;
 
     try {
-        const newDog = await Dog.create({ name, age, description, size });
+        const newDog = await Dog.create({ name, age, description, size, registeredBy: req.user._id });
         res.status(201).json({ dog: newDog._id });
     } catch (err) {
         const errors = handleErrors(err);
@@ -34,7 +34,7 @@ module.exports.registerDog_post = async (req, res) => {
 module.exports.dogs_get = async (req, res) => {
     try {
         const dogs = await Dog.find(); // fetch all dogs
-        res.render('dogs', { dogs }); // pass dogs to EJS view
+        res.render('dogs', { dogs, userId: req.user ? req.user._id.toString() : null }); // pass dogs to EJS view
     } catch (err) {
         console.error(err);
         res.status(500).send('Server error while fetching dogs');
@@ -51,3 +51,28 @@ module.exports.deleteDogById = (req, res) => {
     res.send(`Dog with ID ${id} deleted`);
 };
 
+module.exports.adoptDog_post = async (req, res) => {
+    try {
+        const dog = await Dog.findById(req.params.id);
+
+        if (!dog) {
+            return res.status(404).send("Dog not found");
+        }
+
+        if (dog.registeredBy.toString() === req.user._id.toString()) {
+            return res.status(403).send("You cannot adopt your own dog");
+        }
+
+        if (dog.adoptedBy) {
+            return res.status(400).send("Dog already adopted");
+        }
+
+        dog.adoptedBy = req.user._id;
+        await dog.save();
+
+        res.redirect('/dogs'); // redirect to updated dogs list
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server error");
+    }
+};
