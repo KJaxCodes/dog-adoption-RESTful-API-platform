@@ -1,5 +1,5 @@
 
-
+const Dog = require('../models/dog');
 
 module.exports.registerDog_get = (req, res) => {
     res.render('registerDog')
