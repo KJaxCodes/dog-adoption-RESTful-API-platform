@@ -9,6 +9,7 @@
 
 <body>
     <a href="/">Home</a>
+    <a href="/dogs">View Dogs</a>
     <form>
         <h2>Register a Dog</h2>
         <label for="name">Name</label>
@@ -37,8 +38,12 @@
 
     <script>
         const form = document.querySelector('form');
+        const nameError = document.querySelector('.name.error');
+        const ageError = document.querySelector('.age.error');
+        const descriptionError = document.querySelector('.description.error');
+        const sizeError = document.querySelector('.size.error');
 
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             // get form values
@@ -66,7 +71,28 @@
                 document.querySelector('.size.error').textContent = 'Please select a size';
             }
 
-            // TODO Submit data to mongodb
+            try {
+                const res = await fetch('/registerDog', {
+                    method: 'POST',
+                    body: JSON.stringify({ name, age, description, size }),
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await res.json();
+                console.log(data);
+                if (data.errors) {
+                    nameError.textContent = data.errors.name;
+                    ageError.textContent = data.errors.age;
+                    descriptionError.textContent = data.errors.description;
+                    sizeError.textContent = data.errors.size;
+                }
+                //check if there is a dog, if so, redirect to dogs page to view dogs
+                if (data.dog) {
+                    location.assign('/dogs');  //location.assign is how to redirect from the front side
+                }
+
+            } catch (err) {
+                console.log(err);
+            }
         });
     </script>
 </body>
