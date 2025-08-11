@@ -30,13 +30,22 @@
                     <p>Description: <%= dog.description %>
                     </p>
 
-                    <% if (userId && !dog.adoptedBy && dog.registeredBy.toString() !==userId) { %>
-                        <form action="/adopt/<%= dog._id %>" method="POST">
-                            <button class="action-btn" type="submit">Adopt</button>
-                        </form>
-                        <% } else if (dog.adoptedBy) { %>
-                            <p><em>Already adopted</em></p>
-                            <% } %>
+                    <% if (userId) { %>
+                        <% if (dog.registeredBy.toString()===userId) { %>
+                            <!-- Remove button for the user who registered the dog -->
+                            <form action="/dogs/delete/<%= dog._id %>" method="POST">
+                                <button class="action-btn remove-btn" type="submit">Remove</button>
+                            </form>
+                            <% } else if (!dog.adoptedBy) { %>
+                                <!-- Adopt button for other registered users -->
+                                <form action="/adopt/<%= dog._id %>" method="POST">
+                                    <button class="action-btn adopt-btn" type="submit">Adopt</button>
+                                </form>
+                                <% } else { %>
+                                    <!-- If dog is adopted -->
+                                    <p><em>Already adopted</em></p>
+                                    <% } %>
+                                        <% } %>
                 </li>
                 <% }) %>
         </ul>

@@ -38,7 +38,7 @@ a:hover {
     background-color: #e68a74;
 }
 
-form {
+form.register-form {
     width: 360px;
     margin: 0 auto;
     padding: 30px;
@@ -91,15 +91,13 @@ button:hover {
 
 .action-btn {
     width: 120px;
-    /* lets the button shrink to fit content */
-    padding: 8px 20px;
-    /* adjust padding for a balanced size */
+    margin: 0;
+    padding: 10px 0;
     background-color: #6ab04c;
     font-weight: 600;
-    font-size: 1em;
-    letter-spacing: 1.5px;
+    font-size: .8em;
+    letter-spacing: 1px;
     border-radius: 24px;
-    /* optional smaller radius */
 }
 
 .action-btn:hover {
@@ -134,4 +132,14 @@ button:hover {
 .dog img {
     width: 100px;
     margin: -30px auto 20px;
+}
+
+.dog form {
+    display: flex;
+    justify-content: center;
+    /* centers the button horizontally */
+    margin-top: 15px;
+    /* optional spacing above the button */
+    padding: 0;
+    /* reset any padding if needed */
 }
