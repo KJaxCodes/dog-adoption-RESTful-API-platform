@@ -17,6 +17,10 @@ h1 {
     margin-top: 20px;
 }
 
+ul {
+    list-style-type: none;
+}
+
 a {
     display: inline-block;
     margin-top: 20px;
