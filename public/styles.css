@@ -38,7 +38,19 @@ a:hover {
     background-color: #e68a74;
 }
 
-form.register-form {
+form {
+    max-width: 400px;
+    /* Limit the max width */
+    margin: 40px auto;
+    /* Center horizontally with some vertical spacing */
+    padding: 20px 30px;
+    /* Padding inside the form */
+    border-radius: 12px;
+    background: white;
+    color: #272efc;
+}
+
+form.main-form {
     width: 360px;
     margin: 0 auto;
     padding: 30px;
