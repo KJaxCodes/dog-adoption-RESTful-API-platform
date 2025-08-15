@@ -1,11 +1,11 @@
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../app'; // Adjust path if needed
+import app from '../app';
 
 chai.use(chaiHttp);
 
 describe('GET / (Home Page)', () => {
-    it('should render the home page with status 200', (done) => {
+    it('should render the home page with welcome message', (done) => {
         chai.request(app)
             .get('/')
             .end((err, res) => {
