@@ -8,10 +8,14 @@
 </head>
 
 <body>
+    <script>
+        console.log("Dogs route loaded");
+        console.log("Maybe here I need script for pagination, right now I'm at (skip === 0) default first 5")
+    </script>
     <a href="/">Home</a>
     <a href="/registerDog">Register a Dog</a>
     <h1>Available Dogs</h1>
-    <p>Filter by Adopted or Registered</p>
+    <!-- Buttons to filter by available, adopted, registered-->
 
     <% if (dogs.length> 0) { %>
         <ul class="dogs">
@@ -52,6 +56,15 @@
         <% } else { %>
             <p>No dogs available for adoption right now.</p>
             <% } %>
+                <!-- <button id="next-page-btn">Next</button> -->
+                <div>
+                    <% if (page> 1) { %>
+                        <a href="/dogs?page=<%= page - 1 %>">Previous Page</a>
+                        <% } %>
+                            <% if (dogs.length===itemsPerPage) { %>
+                                <a href="/dogs?page=<%= page + 1 %>">Next Page</a>
+                                <% } %>
+                </div>
 </body>
 
 </html>

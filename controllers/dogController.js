@@ -33,8 +33,18 @@ module.exports.registerDog_post = async (req, res) => {
 };
 module.exports.dogs_get = async (req, res) => {
     try {
-        const dogs = await Dog.find(); // fetch all dogs
-        res.render('dogs', { dogs, userId: req.user ? req.user._id.toString() : null }); // pass dogs to EJS view
+        //page query - /dogs?page=x
+        const page = req.query.page ? Number(req.query.page) : 1;
+        console.log("Page: " + page);
+
+        //pagination settings
+        const itemsPerPage = 2;
+        const skip = (page - 1) * itemsPerPage;
+        const limit = 2;
+
+
+        const dogs = await Dog.find().skip(skip).limit(limit); // fetch 2 dogs at a time
+        res.render('dogs', { dogs, page, itemsPerPage, userId: req.user ? req.user._id.toString() : null }); // pass dogs to EJS view
     } catch (err) {
         console.error(err);
         res.status(500).send('Server error while fetching dogs');

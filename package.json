@@ -2,7 +2,7 @@
 	"name": "dog-adoption-platform-api",
 	"version": "1.0.0",
 	"description": "Dog Adoption Platform API",
-	"type": "module",
+	"type": "commonjs",
 	"main": "app.js",
 	"scripts": {
 		"start": "node app.js",
