@@ -46,7 +46,7 @@ module.exports.dogs_get = async (req, res) => {
         const limit = 2;
 
         //filter query
-        const currentUser = req.user.id;
+        const currentUser = req.user._id;
         let query = {};
 
         //"available" means the dog is not adopted - if registered by current user it will have REMOVE
@@ -54,7 +54,7 @@ module.exports.dogs_get = async (req, res) => {
         //"my dogs" means the dog was registered by current user
         if (filter === "available") {
             query.adoptedBy = { $exists: false };
-        } else if (filter === "registerd" && currentUser) {
+        } else if (filter === "registered" && currentUser) {
             query.registeredBy = currentUser;
         } else if (filter === "adopted" && currentUser) {
             query.adoptedBy = currentUser;
