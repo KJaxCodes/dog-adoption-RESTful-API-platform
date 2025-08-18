@@ -1,4 +1,6 @@
 const Dog = require('../models/dog');
+const User = require('../models/user');
+const mongoose = require("mongoose");
 
 // handle errors
 const handleErrors = (err) => {
@@ -35,16 +37,32 @@ module.exports.dogs_get = async (req, res) => {
     try {
         //page query - /dogs?page=x
         const page = req.query.page ? Number(req.query.page) : 1;
-        console.log("Page: " + page);
+        const filter = req.query.filter || "all"; // default to "all"
+        console.log("Page: " + page, "Filter: " + filter, "Current user: " + req.user.id);
 
         //pagination settings
         const itemsPerPage = 2;
         const skip = (page - 1) * itemsPerPage;
         const limit = 2;
 
+        //filter query
+        const currentUser = req.user.id;
+        let query = {};
 
-        const dogs = await Dog.find().skip(skip).limit(limit); // fetch 2 dogs at a time
-        res.render('dogs', { dogs, page, itemsPerPage, userId: req.user ? req.user._id.toString() : null }); // pass dogs to EJS view
+        //"available" means the dog is not adopted - if registered by current user it will have REMOVE
+        //"adopted" means the dog has been adopted by current or other user
+        //"my dogs" means the dog was registered by current user
+        if (filter === "available") {
+            query.adoptedBy = { $exists: false };
+        } else if (filter === "registerd" && currentUser) {
+            query.registeredBy = currentUser;
+        } else if (filter === "adopted" && currentUser) {
+            query.adoptedBy = currentUser;
+        }
+
+
+        const dogs = await Dog.find(query).skip(skip).limit(limit); // fetch 2 dogs at a time
+        res.render('dogs', { dogs, page, itemsPerPage, userId: req.user ? req.user._id.toString() : null, filter }); // pass dogs to EJS view
     } catch (err) {
         console.error(err);
         res.status(500).send('Server error while fetching dogs');

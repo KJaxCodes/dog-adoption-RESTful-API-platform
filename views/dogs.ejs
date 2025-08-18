@@ -16,6 +16,14 @@
     <a href="/registerDog">Register a Dog</a>
     <h1>Available Dogs</h1>
     <!-- Buttons to filter by available, adopted, registered-->
+    <div>
+        <a href="/dogs?filter=all">All Dogs</a>
+        <a href="/dogs?filter=available">Available</a>
+        <% if (userId) { %>
+            <a href="/dogs?filter=registered">My Registered Dogs</a>
+            <a href="/dogs?filter=adopted">My Adopted Dogs</a>
+            <% } %>
+    </div>
 
     <% if (dogs.length> 0) { %>
         <ul class="dogs">
@@ -56,13 +64,13 @@
         <% } else { %>
             <p>No dogs available for adoption right now.</p>
             <% } %>
-                <!-- <button id="next-page-btn">Next</button> -->
+                <!-- Next and Previous -->
                 <div>
                     <% if (page> 1) { %>
-                        <a href="/dogs?page=<%= page - 1 %>">Previous Page</a>
+                        <a href="/dogs?page=<%= page - 1 %>&filter=<%= filter %>">Previous Page</a>
                         <% } %>
                             <% if (dogs.length===itemsPerPage) { %>
-                                <a href="/dogs?page=<%= page + 1 %>">Next Page</a>
+                                <a href="/dogs?page=<%= page + 1 %>&filter=<%= filter %>">Next Page</a>
                                 <% } %>
                 </div>
 </body>
