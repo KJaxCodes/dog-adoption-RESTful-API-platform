@@ -7,11 +7,14 @@ const authRoutes = require('./routes/authRoutes');
 const dogRoutes = require('./routes/dogRoutes');
 const cookieParser = require('cookie-parser'); // import the cookie parser
 const { requireAuth, checkUser } = require('./middlewares/authMiddleware');
+const { connectToDB } = require('./db')
 const cors = require('cors'); //TODO - use cors
 
 const PORT = process.env.PORT || 3001;
 
 const app = express();
+
+connectToDB();
 
 // middleware
 app.use(express.static('public'));
@@ -22,30 +25,14 @@ app.use(cookieParser()); //use the cookie parser
 // view engine
 app.set('view engine', 'ejs');
 
-// Connect to MongoDB before starting the server
-const startServer = async () => {
-    try {
-        await mongoose.connect(process.env.MONGO_URI);
-        console.log('Connected to MongoDB');
+// Routes
+app.use(checkUser);
+app.use('/', authRoutes);
+app.use('/', dogRoutes);
 
-        // Routes
-        app.use(checkUser);
-        app.use('/', authRoutes);
-        app.use('/', dogRoutes);
-
-        // Root route
-        app.get('/', (req, res) => {
-            res.render('home');
-        });
-
-        app.listen(PORT, () => {
-            console.log(`Server running on http://localhost:${PORT}`);
-        });
-    } catch (err) {
-        console.error('MongoDB connection error:', err);
-    }
-};
-
-startServer();
+// Root route
+app.get('/', (req, res) => {
+    res.render('home');
+});
 
 module.exports = app;
