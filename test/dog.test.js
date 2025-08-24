@@ -21,14 +21,28 @@
 
 
 
-// describe('GET / (Dogs Page)', () => {
-//     it('should verify that the dogs page renders an object successfully', (done) => {
+// describe('Authenticated Endpoints', () => {
+//     let authToken;
+
+//     before((done) => {
 //         chai.request(app)
-//             .get('/dogs')
+//             .post('/signup')
+//             .send({ username: 'testuser', password: 'test123' })
 //             .end((err, res) => {
-//                 // res.should.have.status(500);
-//                 res.body.should.be.a('object');
+//                 authToken = res.body.token;
+//                 console.log(authToken);
 //                 done();
 //             });
 //     });
+
+
+    // it('should verify that the dogs page renders an object successfully', (done) => {
+    //     chai.request(app)
+    //         .get('/dogs')
+    //         .end((err, res) => {
+    //             // res.should.have.status(500);
+    //             res.body.should.be.a('object');
+    //             done();
+    //         });
+    // });
 // });
