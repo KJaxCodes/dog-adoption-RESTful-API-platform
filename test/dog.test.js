@@ -1,11 +1,11 @@
 
-// const chai = require('chai');
-// const chaiHttp = require('chai-http');
-// const { expect } = chai;
-// const should = require('chai').should();
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const { expect } = chai;
+const should = require('chai').should();
 
-// const app = require('../app');
-// chai.use(chaiHttp);
+const app = require('../app');
+chai.use(chaiHttp);
 
 // // ensure no dogs in DB before testing
 // before((done) => {
