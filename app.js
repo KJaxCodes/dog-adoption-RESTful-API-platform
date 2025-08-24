@@ -32,7 +32,7 @@ app.use('/', dogRoutes);
 
 // Root route
 app.get('/', (req, res) => {
-    res.render('home');
+    res.status(200).render('home');
 });
 
 module.exports = app;
