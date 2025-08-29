@@ -8,7 +8,15 @@ const dogRoutes = require('./routes/dogRoutes');
 const cookieParser = require('cookie-parser'); // import the cookie parser
 const { requireAuth, checkUser } = require('./middlewares/authMiddleware');
 const { connectToDB } = require('./db')
-const cors = require('cors'); //TODO - use cors
+const cors = require('cors');
+// app.use(cors()); // Enable CORS for all routes  
+
+// CORS configuration
+// app.use(cors({
+//     origin: '/',
+//     credentials: true // Allow cookies to be sent
+// }));
+
 
 const PORT = process.env.PORT || 3001;
 

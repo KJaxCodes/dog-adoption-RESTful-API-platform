@@ -9,9 +9,19 @@ const app = require('../app');
 chai.use(chaiHttp);
 
 const User = require('../models/user');
+const Dog = require('../models/dog');
+
 
 describe("Auth tests", () => {
     let loginCookie = null;
+    let newDog = {
+        name: "Chewbarka",
+        size: "large",
+        age: 3,
+        description: "Very hairy dog"
+    };
+    let dogIdToAdopt = null; // Variable to store the dog ID for adoption tests
+
     it("should successfully register a user", (done) => {
         chai.request(app)
             .post('/signup')
@@ -40,17 +50,13 @@ describe("Auth tests", () => {
     });
 
     it("should allow logged in user to register a dog", (done) => {
-        let newDog = {
-            name: "Chewbarka",
-            size: "large",
-            age: 3,
-            description: "Very hairy dog"
-        };
+
         chai.request(app)
             .post('/registerDog')
             .set('Cookie', loginCookie) // Set the cookie for authentication
             .send(newDog)
             .end((err, res) => {
+               dogIdToAdopt = res.body.dog; // Store the dog ID for adoption tests
                 if (err) return done(err);
                 expect(res).to.have.status(201);
                 expect(res.body).to.be.a('object');
@@ -59,14 +65,14 @@ describe("Auth tests", () => {
     });
 
     it("should not allow the user to register a dog with missing fields", (done) => {
-        let newDog = {
+        let newDog2 = {
             size: "large",
             age: 3
         };
         chai.request(app)
             .post('/registerDog')
             .set('Cookie', loginCookie) // Set the cookie for authentication
-            .send(newDog)
+            .send(newDog2)
             .end((err, res) => {
                 if (err) return done(err);
                 expect(res).to.have.status(400);
@@ -78,28 +84,45 @@ describe("Auth tests", () => {
             });
     });
 
-    after(async () => {
+    it("should not allow a user to adopt a dog they registered", (done) => {
 
-        // Remove dogs registered by the test user
-        const user = await User.findOne({ email: "testuser1@mail.com" });
-        if (user) {
-            const userId = user._id;
-            const Dog = require('../models/dog');
-            try {
-                await Dog.deleteMany({ registeredBy: userId });
-            } catch (err) {
-                console.log("Error from deleting dogs: ", err);
-                process.exit(1);
-            }
-        }
+        // Find the registerd dog by ID
 
-        // Clean up the test user from the database
+
+        // Attempt to adopt the dog registered by the test user
+        chai.request(app)
+            .post(`/adopt/${dogIdToAdopt}`)
+            .set('Cookie', loginCookie) // Set the cookie for authentication
+            .end((err, res) => {
+                if (err) return done(err);
+                expect(res).to.have.status(403);
+                expect(res.body).to.have.property('error');
+                done();
+            });
+    });
+});
+
+after(async () => {
+
+    // Remove dogs registered by the test user
+    // simply to just deleting, no need to find them
+    const user = await User.findOne({ email: "testuser1@mail.com" });
+    if (user) {
+        const userId = user._id;
         try {
-            await User.deleteOne({ email: "testuser1@mail.com" });
+            await Dog.deleteMany({ registeredBy: userId });
         } catch (err) {
-            console.log("Error from deleting user: ", err);
+            console.log("Error from deleting dogs: ", err);
             process.exit(1);
         }
-    });
+    }
 
+    // Clean up the test user from the database
+    try {
+        await User.deleteOne({ email: "testuser1@mail.com" });
+    } catch (err) {
+        console.log("Error from deleting user: ", err);
+        process.exit(1);
+    }
 });
+
