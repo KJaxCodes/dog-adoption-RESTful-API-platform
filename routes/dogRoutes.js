@@ -15,7 +15,7 @@ const router = Router();
 
 router.get('/registerDog', dogController.registerDog_get);
 router.post('/registerDog', requireAuth, dogController.registerDog_post);
-router.get('/dogs', dogController.dogs_get);
+router.get('/dogs', requireAuth, dogController.dogs_get);
 router.post('/adopt/:id', requireAuth, dogController.adoptDog_post);
 router.get('/dogs/:id', dogController.getDogById);
 router.post('/dogs/delete/:id', requireAuth, dogController.deleteDogById);

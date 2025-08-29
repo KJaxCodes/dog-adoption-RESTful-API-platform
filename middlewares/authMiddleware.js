@@ -6,6 +6,8 @@ const User = require('../models/user');
 //check authentication status
 const requireAuth = (req, res, next) => {
 
+    console.log("cookies object in request", req.cookies);
+
     const token = req.cookies.jwt;
 
     // check json web token exists and is valid
@@ -13,7 +15,7 @@ const requireAuth = (req, res, next) => {
         jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
             if (err) {
                 console.log(err.message);
-                res.redirect('/login');
+                return res.redirect(401, '/login');
             } else {
                 console.log(decodedToken);
                 next();
@@ -21,7 +23,7 @@ const requireAuth = (req, res, next) => {
         })
     }
     else {
-        res.redirect('/login');
+        return res.redirect(401, '/login');
     }
 }
 
