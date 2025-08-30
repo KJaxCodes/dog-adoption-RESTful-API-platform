@@ -1,5 +1,5 @@
 require('dotenv').config();
-// console.log('Mongo URI:', process.env.MONGO_URI);
+
 //database
 const express = require('express');
 const mongoose = require('mongoose');
@@ -8,21 +8,15 @@ const dogRoutes = require('./routes/dogRoutes');
 const cookieParser = require('cookie-parser'); // import the cookie parser
 const { requireAuth, checkUser } = require('./middlewares/authMiddleware');
 const { connectToDB } = require('./db')
-const cors = require('cors');
-// app.use(cors()); // Enable CORS for all routes  
+const cors = require('cors'); // import cors
 
-// CORS configuration
-// app.use(cors({
-//     origin: '/',
-//     credentials: true // Allow cookies to be sent
-// }));
+const PORT = process.env.PORT || 3001; 
 
+// create express app
+const app = express(); 
 
-const PORT = process.env.PORT || 3001;
-
-const app = express();
-
-connectToDB();
+// connect to database
+connectToDB();  
 
 // middleware
 app.use(express.static('public'));
@@ -34,9 +28,10 @@ app.use(cookieParser()); //use the cookie parser
 app.set('view engine', 'ejs');
 
 // Routes
-app.use(checkUser);
-app.use('/', authRoutes);
-app.use('/', dogRoutes);
+app.use(cors()); // Use CORS middleware to enable CORS for all routes   
+app.use(checkUser); // to check user on all routes
+app.use('/', authRoutes);  // to handle auth routes
+app.use('/', dogRoutes);   // to handle dog routes 
 
 // Root route
 app.get('/', (req, res) => {

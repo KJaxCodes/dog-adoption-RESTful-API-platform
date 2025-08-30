@@ -1,4 +1,4 @@
-// Replace this file with custom middleware functions, including authentication and rate limiting
+// Middleware for authentication and user checking
 
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');

@@ -1,3 +1,5 @@
+// Dog Controller
+
 const Dog = require('../models/dog');
 const User = require('../models/user');
 const mongoose = require("mongoose");

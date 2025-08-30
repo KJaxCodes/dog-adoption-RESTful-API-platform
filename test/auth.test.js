@@ -13,7 +13,9 @@ const Dog = require('../models/dog');
 
 
 describe("Auth tests", () => {
+    // Variable to store the login cookie
     let loginCookie = null;
+    // Sample dog data for registration
     let newDog = {
         name: "Chewbarka",
         size: "large",
@@ -28,7 +30,6 @@ describe("Auth tests", () => {
             .send({ email: "testuser1@mail.com", password: "password" })
             .end((err, res) => {
                 if (err) return done(err);
-                // console.log("sign up test");
                 // console.log("Cookies: ", res.headers['set-cookie']);
                 loginCookie = res.headers['set-cookie'][0];
                 expect(res).to.have.status(201);
@@ -86,10 +87,7 @@ describe("Auth tests", () => {
 
     it("should not allow a user to adopt a dog they registered", (done) => {
 
-        // Find the registerd dog by ID
-
-
-        // Attempt to adopt the dog registered by the test user
+        // Adopt the dog registered by the test user
         chai.request(app)
             .post(`/adopt/${dogIdToAdopt}`)
             .set('Cookie', loginCookie) // Set the cookie for authentication
@@ -105,7 +103,6 @@ describe("Auth tests", () => {
 after(async () => {
 
     // Remove dogs registered by the test user
-    // simply to just deleting, no need to find them
     const user = await User.findOne({ email: "testuser1@mail.com" });
     if (user) {
         const userId = user._id;

@@ -4,12 +4,14 @@ const mongoose = require('mongoose');
 const DEV_DB_URI = process.env.MONGO_URI_DEV;
 const TEST_DB_URI = process.env.MONGO_URI_TEST;
 
+
 const connectLocalDb = () => {
     mongoose.connect(dbURI)
         .then(() => console.log('Connected to local MongoDB'))
         .catch((err) => console.error('Could not connect to local MongoDB:', err));
 }
 
+// Connect to the appropriate database based on the environment
 const connectToDB = async () => {
     try {
         console.log(process.env.NODE_ENV);

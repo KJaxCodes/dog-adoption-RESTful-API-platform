@@ -1,5 +1,4 @@
-// Replace this file with the routes of your API
-
+// Auth Routes  
 const { Router } = require('express');
 const authController = require('../controllers/authController');
 
